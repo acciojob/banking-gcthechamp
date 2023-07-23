@@ -21,6 +21,11 @@ public class StudentAccount extends BankAccount{
         return super.getBalance();
     }
 
+    public String getInstitutionName()
+    {
+        return this.institutionName;
+    }
+
     public void setBalance(double balance)
     {
         super.setBalance(balance);

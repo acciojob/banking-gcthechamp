@@ -12,6 +12,14 @@ public class SavingsAccount extends BankAccount{
 
     }
 
+    public double getRate() {
+        return rate;
+    }
+
+    public double getMaxWithdrawalLimit() {
+        return maxWithdrawalLimit;
+    }
+
     public String getName()
     {
         return super.getName();

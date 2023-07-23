@@ -11,6 +11,11 @@ public class CurrentAccount extends BankAccount {
         this.tradeLicenseId = tradeLicenseId;
     }
 
+    public String getTradeLicenseId()
+    {
+        return this.tradeLicenseId;
+    }
+
     public String getName() {
         return super.getName();
     }

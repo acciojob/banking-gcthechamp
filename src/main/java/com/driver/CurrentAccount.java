@@ -71,7 +71,7 @@ public class CurrentAccount extends BankAccount {
             }
 
             if(maxFreq > Math.ceil((double)n/2))
-                throw new InvalidLicenseException("Valid License can not be generated");
+                throw new Exception("Valid License can not be generated");
 
             int k=0;
 

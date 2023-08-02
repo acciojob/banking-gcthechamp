@@ -1,5 +1,6 @@
 package com.driver;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class CurrentAccount extends BankAccount {
@@ -41,15 +42,6 @@ public class CurrentAccount extends BankAccount {
         return false;
     }
 
-    public void shuffle(char[] arr) {
-        Random random = new Random();
-        for (int i = arr.length - 1; i >= 0; i--) {
-            int index = random.nextInt(i + 1);
-            char temp = arr[i];
-            arr[i] = arr[index];
-            arr[index] = temp;
-        }
-    }
 
     public void validateLicenseId() throws Exception {
         // A trade license Id is said to be valid if no two consecutive characters are same
@@ -57,24 +49,50 @@ public class CurrentAccount extends BankAccount {
         // If the characters of the license Id can be rearranged to create any valid license Id
         // If it is not possible, throw "Valid License can not be generated" Exception
         char[] arr = tradeLicenseId.toCharArray();
+        int n = arr.length;
 
-        int[] freq = new int[26];
-
+        int maxFreq = 0;
+        char maxCh = ' ';
 
         if (isConsecutive(arr)) {
-            for (int i = 0; i < arr.length; i++) {
-                char ch = arr[i];
-                freq[ch - 'A']++;
+            HashMap<Character,Integer> map = new HashMap<>();
+            for(int i = 0; i<n; i++)
+            {
+                map.put(arr[i],map.getOrDefault(arr[i],0)+1);
             }
 
-
-            for (int i = 0; i < 26; i++) {
-                if (freq[i] >= tradeLicenseId.length() - 1)
-                    throw new InvalidLicenseException("Valid License can not be generated");
+            for(char ch : map.keySet())
+            {
+                if(map.get(ch) > maxFreq)
+                {
+                    maxFreq = map.get(ch);
+                    maxCh = ch;
+                }
             }
 
-            while (isConsecutive(arr)) {
-                shuffle(arr);
+            if(maxFreq > Math.ceil((double)n/2))
+                throw new InvalidLicenseException("Valid License can not be generated");
+
+            int k=0;
+
+            for(int i=0; i<maxFreq; i++)
+            {
+                if(k >= n)
+                    k=1;
+                arr[k] = maxCh;
+                k+=2;
+            }
+
+            for(int i=0; i<n; i++)
+            {
+                char c = tradeLicenseId.charAt(i);
+                if(c!=maxCh)
+                {
+                    if(k>=n)
+                        k=1;
+                    arr[k] = c;
+                    k+=2;
+                }
             }
 
             tradeLicenseId = String.valueOf(arr);
